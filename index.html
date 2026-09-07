@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>RAT LAB // C2 TRAINING</title>
+<title>SecureCam — WebRTC</title>
 
 <style>
 * {
@@ -13,241 +12,120 @@
 
 body {
     margin: 0;
-    background: #07090d;
-    color: #d8dee9;
-    font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+    min-height: 100vh;
+    background: #080b10;
+    color: #e8edf5;
+    font-family: Arial, sans-serif;
 }
 
 header {
-    height: 70px;
+    padding: 22px;
     border-bottom: 1px solid #202631;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    background: #0a0d12;
+    background: #0d1118;
 }
 
-.logo {
-    font-weight: 900;
-    letter-spacing: 3px;
-    font-size: 19px;
+header h1 {
+    margin: 0;
+    font-size: 25px;
 }
 
-.logo span {
-    opacity: .45;
+header p {
+    margin: 7px 0 0;
+    color: #7f8b9d;
 }
 
-.mode {
-    border: 1px solid #394352;
-    padding: 7px 12px;
-    border-radius: 7px;
-    font-size: 11px;
-    letter-spacing: 1px;
-}
-
-.layout {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: calc(100vh - 70px);
-}
-
-aside {
-    border-right: 1px solid #202631;
-    background: #090c11;
-    padding: 20px;
-}
-
-.section-title {
-    color: #667085;
-    font-size: 10px;
-    letter-spacing: 2px;
-    margin: 12px 0;
-}
-
-.nav {
-    padding: 12px;
-    border-radius: 7px;
-    margin-bottom: 6px;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.nav.active {
-    background: #171d26;
-}
-
-main {
-    padding: 25px;
+.container {
+    width: min(1100px, 94%);
+    margin: 25px auto;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
 }
 
 .card {
-    background: #0c1016;
-    border: 1px solid #202631;
-    border-radius: 9px;
+    background: #0d121a;
+    border: 1px solid #202936;
+    border-radius: 15px;
     padding: 18px;
 }
 
-.metric {
-    font-size: 28px;
-    font-weight: 800;
-    margin-top: 7px;
+.card h2 {
+    margin-top: 0;
 }
 
-.label {
-    color: #707b8c;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.panel {
-    background: #0c1016;
-    border: 1px solid #202631;
-    border-radius: 9px;
-    overflow: hidden;
-}
-
-.panel-head {
-    padding: 15px;
-    border-bottom: 1px solid #202631;
-    display: flex;
-    justify-content: space-between;
-    font-weight: 700;
-}
-
-.agent {
-    padding: 15px;
-    border-bottom: 1px solid #171c24;
-    cursor: pointer;
-}
-
-.agent:hover {
-    background: #11161e;
-}
-
-.agent-name {
-    font-weight: 700;
-}
-
-.agent-meta {
-    margin-top: 6px;
-    color: #737f90;
-    font-size: 11px;
-}
-
-.dot {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    margin-right: 6px;
-    background: #777;
-}
-
-.online {
-    background: #62d38a;
-}
-
-.offline {
-    background: #e06c75;
-}
-
-.console {
-    height: 330px;
-    overflow-y: auto;
-    padding: 15px;
-    font-family: monospace;
-    font-size: 12px;
-}
-
-.log {
-    margin-bottom: 9px;
-    color: #8994a5;
-}
-
-.log strong {
-    color: #cbd5e1;
-}
-
-.controls {
-    padding: 15px;
-    border-top: 1px solid #202631;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+video {
+    width: 100%;
+    background: #020304;
+    border-radius: 12px;
+    min-height: 220px;
+    object-fit: cover;
 }
 
 button {
-    background: #161c25;
-    border: 1px solid #303947;
-    color: #d8dee9;
-    padding: 10px 14px;
-    border-radius: 6px;
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: 0;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
     cursor: pointer;
 }
 
 button:hover {
-    background: #202936;
+    filter: brightness(1.15);
 }
 
 button.danger {
-    border-color: #6b3036;
+    background: #b91c1c;
 }
 
-.selected {
-    border-left: 3px solid #d8dee9;
+textarea {
+    width: 100%;
+    min-height: 150px;
+    margin-top: 10px;
+    resize: vertical;
+    background: #070a0f;
+    color: #dce5f0;
+    border: 1px solid #283241;
+    border-radius: 9px;
+    padding: 12px;
+    font-family: monospace;
 }
 
-.notice {
-    margin-top: 15px;
-    padding: 14px;
-    background: #0d1118;
-    border: 1px dashed #394352;
-    color: #8994a5;
-    font-size: 12px;
+.status {
+    padding: 11px;
     border-radius: 8px;
+    margin-top: 12px;
+    background: #111823;
+    color: #9ba8ba;
 }
 
-pre {
-    white-space: pre-wrap;
-    word-break: break-word;
+.online {
+    color: #4ade80;
 }
 
-@media(max-width:900px) {
-    .layout {
-        grid-template-columns: 1fr;
-    }
+.warning {
+    margin-top: 20px;
+    padding: 13px;
+    border-radius: 9px;
+    background: #17130a;
+    border: 1px solid #51400e;
+    color: #e7cf72;
+}
 
-    aside {
-        display: none;
-    }
-
+@media(max-width: 750px) {
     .grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
     }
 
-    .content {
-        grid-template-columns: 1fr;
+    header {
+        padding: 17px;
     }
 }
 </style>
@@ -256,348 +134,331 @@ pre {
 <body>
 
 <header>
-    <div class="logo">
-        RAT LAB <span>// C2 TRAINING</span>
-    </div>
-
-    <div class="mode">
-        SAFE SANDBOX MODE
-    </div>
+    <h1>SecureCam</h1>
+    <p>WebRTC камера и микрофон с разрешением пользователя</p>
 </header>
 
-<div class="layout">
+<div class="container">
 
-<aside>
+<div class="grid">
 
-    <div class="section-title">CONTROL</div>
+<div class="card">
+    <h2>📷 Передающая сторона</h2>
 
-    <div class="nav active">
-        Dashboard
+    <video id="localVideo" autoplay muted playsinline></video>
+
+    <button onclick="startCamera()">
+        Разрешить камеру и микрофон
+    </button>
+
+    <button onclick="createOffer()">
+        Создать подключение
+    </button>
+
+    <button class="danger" onclick="stopCamera()">
+        Остановить камеру и микрофон
+    </button>
+
+    <div id="localStatus" class="status">
+        Статус: отключено
     </div>
 
-    <div class="nav">
-        Agents
+    <textarea
+        id="offer"
+        placeholder="Здесь появится Offer. Скопируй его на принимающее устройство."
+    ></textarea>
+</div>
+
+
+<div class="card">
+    <h2>🖥️ Принимающая сторона</h2>
+
+    <video id="remoteVideo" autoplay playsinline controls></video>
+
+    <textarea
+        id="offerInput"
+        placeholder="Вставь сюда Offer с первого устройства"
+    ></textarea>
+
+    <button onclick="createAnswer()">
+        Принять подключение
+    </button>
+
+    <textarea
+        id="answer"
+        placeholder="Здесь появится Answer. Верни его на первое устройство."
+    ></textarea>
+
+    <button onclick="finishConnection()">
+        Завершить подключение
+    </button>
+
+    <div id="remoteStatus" class="status">
+        Статус: ожидание
     </div>
-
-    <div class="nav">
-        Command Lab
-    </div>
-
-    <div class="nav">
-        Event Log
-    </div>
-
-    <div class="section-title">TRAINING</div>
-
-    <div class="nav">
-        C2 Architecture
-    </div>
-
-    <div class="nav">
-        Network Monitor
-    </div>
-
-    <div class="nav">
-        Detection Lab
-    </div>
-
-</aside>
-
-<main>
-
-    <div class="grid">
-
-        <div class="card">
-            <div class="label">Agents</div>
-            <div class="metric" id="agents">0</div>
-        </div>
-
-        <div class="card">
-            <div class="label">Online</div>
-            <div class="metric" id="online">0</div>
-        </div>
-
-        <div class="card">
-            <div class="label">Commands</div>
-            <div class="metric" id="commands">0</div>
-        </div>
-
-        <div class="card">
-            <div class="label">Mode</div>
-            <div class="metric" style="font-size:18px">
-                SAFE
-            </div>
-        </div>
-
-    </div>
-
-    <div class="content">
-
-        <section class="panel">
-
-            <div class="panel-head">
-                <span>AGENTS</span>
-                <span id="selected">NONE</span>
-            </div>
-
-            <div id="agentList"></div>
-
-        </section>
-
-        <section class="panel">
-
-            <div class="panel-head">
-                COMMAND CONSOLE
-            </div>
-
-            <div class="console" id="console">
-                <div class="log">
-                    <strong>[SYSTEM]</strong>
-                    Waiting for training agent...
-                </div>
-            </div>
-
-            <div class="controls">
-
-                <button onclick="command('PING')">
-                    PING
-                </button>
-
-                <button onclick="command('INFO')">
-                    SYSTEM INFO
-                </button>
-
-                <button onclick="command('STATUS')">
-                    STATUS
-                </button>
-
-                <button onclick="command('LIST_TEST_FILES')">
-                    TEST FILES
-                </button>
-
-                <button class="danger" onclick="clearConsole()">
-                    CLEAR
-                </button>
-
-            </div>
-
-        </section>
-
-    </div>
-
-    <div class="notice">
-        ⚠ TRAINING ENVIRONMENT: команды ограничены безопасным
-        симулятором. Произвольное выполнение команд ОС,
-        скрытый доступ, сбор паролей, камеры и микрофона отключены.
-    </div>
-
-</main>
+</div>
 
 </div>
 
+<div class="warning">
+    🔒 Камера и микрофон работают только после явного разрешения браузера.
+    Страница не получает доступ к файлам, паролям или терминалу устройства.
+</div>
+
+</div>
+
+
 <script>
 
-let selectedAgent = null;
-let commandCount = 0;
+let localStream = null;
 
-function log(type, message) {
+let senderPC = null;
+let receiverPC = null;
 
-    const consoleBox =
-        document.getElementById("console");
 
-    const row =
-        document.createElement("div");
+/* ---------------------------
+   КАМЕРА + МИКРОФОН
+---------------------------- */
 
-    row.className = "log";
-
-    row.innerHTML =
-        `<strong>[${type}]</strong> ${escapeHtml(message)}`;
-
-    consoleBox.prepend(row);
-}
-
-function escapeHtml(value) {
-
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-async function refresh() {
+async function startCamera() {
 
     try {
 
-        const response =
-            await fetch("/api/agents");
+        localStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: "user"
+            },
+            audio: true
+        });
 
-        const data =
-            await response.json();
+        document.getElementById("localVideo").srcObject =
+            localStream;
 
-        renderAgents(data.agents);
+        document.getElementById("localStatus").innerHTML =
+            '<span class="online">● Камера и микрофон разрешены</span>';
 
-        document.getElementById("agents")
-            .textContent = data.agents.length;
+    } catch (error) {
 
-        document.getElementById("online")
-            .textContent =
-            data.agents.filter(
-                x => x.status === "ONLINE"
-            ).length;
+        document.getElementById("localStatus").textContent =
+            "Ошибка: " + error.message;
 
-    } catch {
-
-        log(
-            "ERROR",
-            "C2 server unavailable"
-        );
     }
 }
 
-function renderAgents(agents) {
 
-    const list =
-        document.getElementById("agentList");
+/* ---------------------------
+   ОСТАНОВКА
+---------------------------- */
 
-    list.innerHTML = "";
+function stopCamera() {
 
-    if (!agents.length) {
+    if (localStream) {
 
-        list.innerHTML = `
-            <div style="
-                padding:25px;
-                color:#667085;
-                font-size:12px;
-            ">
-                No training agents connected.
-            </div>
-        `;
+        localStream.getTracks().forEach(track => {
+            track.stop();
+        });
 
+        localStream = null;
+    }
+
+    document.getElementById("localVideo").srcObject = null;
+
+    if (senderPC) {
+        senderPC.close();
+        senderPC = null;
+    }
+
+    document.getElementById("localStatus").textContent =
+        "Камера и микрофон остановлены";
+}
+
+
+/* ---------------------------
+   СОЗДАНИЕ OFFER
+---------------------------- */
+
+async function createOffer() {
+
+    if (!localStream) {
+        alert("Сначала разреши камеру и микрофон.");
         return;
     }
 
-    agents.forEach(agent => {
+    senderPC = new RTCPeerConnection({
+        iceServers: [
+            {
+                urls: "stun:stun.l.google.com:19302"
+            }
+        ]
+    });
 
-        const item =
-            document.createElement("div");
+    localStream.getTracks().forEach(track => {
 
-        item.className =
-            "agent " +
-            (selectedAgent === agent.id
-                ? "selected"
-                : "");
+        senderPC.addTrack(
+            track,
+            localStream
+        );
 
-        item.onclick = () => {
+    });
 
-            selectedAgent = agent.id;
+    senderPC.onconnectionstatechange = () => {
 
-            document.getElementById("selected")
-                .textContent = agent.name;
+        document.getElementById("localStatus").textContent =
+            "Соединение: " +
+            senderPC.connectionState;
+    };
 
-            renderAgents(agents);
+    const offer =
+        await senderPC.createOffer();
 
-            log(
-                "SELECT",
-                `${agent.name} selected`
-            );
+    await senderPC.setLocalDescription(offer);
+
+    await waitForICE(senderPC);
+
+    document.getElementById("offer").value =
+        JSON.stringify(senderPC.localDescription);
+
+}
+
+
+/* ---------------------------
+   СОЗДАНИЕ ANSWER
+---------------------------- */
+
+async function createAnswer() {
+
+    const input =
+        document.getElementById("offerInput").value.trim();
+
+    if (!input) {
+        alert("Вставь Offer.");
+        return;
+    }
+
+    try {
+
+        const offer =
+            JSON.parse(input);
+
+        receiverPC = new RTCPeerConnection({
+            iceServers: [
+                {
+                    urls: "stun:stun.l.google.com:19302"
+                }
+            ]
+        });
+
+        receiverPC.ontrack = event => {
+
+            document.getElementById("remoteVideo").srcObject =
+                event.streams[0];
+
         };
 
-        item.innerHTML = `
-            <div class="agent-name">
-                <span class="dot ${
-                    agent.status === "ONLINE"
-                        ? "online"
-                        : "offline"
-                }"></span>
+        receiverPC.onconnectionstatechange = () => {
 
-                ${escapeHtml(agent.name)}
-            </div>
+            document.getElementById("remoteStatus").textContent =
+                "Соединение: " +
+                receiverPC.connectionState;
 
-            <div class="agent-meta">
-                ${escapeHtml(agent.os)}
-                · v${escapeHtml(agent.version)}
-                · ${agent.status}
-            </div>
-        `;
+        };
 
-        list.appendChild(item);
-    });
-}
+        await receiverPC.setRemoteDescription(offer);
 
-async function command(cmd) {
+        const answer =
+            await receiverPC.createAnswer();
 
-    if (!selectedAgent) {
+        await receiverPC.setLocalDescription(answer);
 
-        log(
-            "WARN",
-            "Select an agent first"
+        await waitForICE(receiverPC);
+
+        document.getElementById("answer").value =
+            JSON.stringify(receiverPC.localDescription);
+
+    } catch (error) {
+
+        alert(
+            "Не удалось создать подключение: " +
+            error.message
         );
 
+    }
+}
+
+
+/* ---------------------------
+   ЗАВЕРШЕНИЕ ПОДКЛЮЧЕНИЯ
+---------------------------- */
+
+async function finishConnection() {
+
+    if (!senderPC) {
+        alert("На первом устройстве сначала создай Offer.");
         return;
     }
 
-    log(
-        "SEND",
-        `${cmd} → ${selectedAgent}`
-    );
+    const input =
+        document.getElementById("answer").value.trim();
+
+    if (!input) {
+        alert("Вставь Answer.");
+        return;
+    }
 
     try {
 
-        const response =
-            await fetch("/api/command", {
+        const answer =
+            JSON.parse(input);
 
-                method: "POST",
+        await senderPC.setRemoteDescription(answer);
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
+        document.getElementById("localStatus").textContent =
+            "Подключение устанавливается...";
 
-                body: JSON.stringify({
-                    id: selectedAgent,
-                    command: cmd
-                })
+    } catch (error) {
 
-            });
-
-        const data =
-            await response.json();
-
-        commandCount++;
-
-        document.getElementById("commands")
-            .textContent = commandCount;
-
-        log(
-            response.ok ? "RESULT" : "ERROR",
-            JSON.stringify(data)
+        alert(
+            "Ошибка Answer: " +
+            error.message
         );
 
-    } catch {
-
-        log(
-            "ERROR",
-            "Request failed"
-        );
     }
 }
 
-function clearConsole() {
 
-    document.getElementById("console")
-        .innerHTML = "";
+/* ---------------------------
+   ОЖИДАНИЕ ICE
+---------------------------- */
 
-    log(
-        "SYSTEM",
-        "Console cleared"
-    );
+function waitForICE(pc) {
+
+    return new Promise(resolve => {
+
+        if (pc.iceGatheringState === "complete") {
+            resolve();
+            return;
+        }
+
+        function check() {
+
+            if (pc.iceGatheringState === "complete") {
+
+                pc.removeEventListener(
+                    "icegatheringstatechange",
+                    check
+                );
+
+                resolve();
+            }
+        }
+
+        pc.addEventListener(
+            "icegatheringstatechange",
+            check
+        );
+
+    });
 }
-
-refresh();
-
-setInterval(refresh, 3000);
 
 </script>
 
