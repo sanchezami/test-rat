@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>CameraShare</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    color-scheme: dark;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #182338 0,
+            #090d14 42%,
+            #05070b 100%
+        );
+
+    color: #f4f7fb;
+}
+
+header {
+    border-bottom: 1px solid #202938;
+    background: rgba(8, 12, 19, .85);
+    backdrop-filter: blur(15px);
+}
+
+.nav {
+    width: min(1100px, 94%);
+    margin: auto;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+
+.logo span {
+    color: #4f8cff;
+}
+
+.badge {
+    padding: 7px 11px;
+    border-radius: 999px;
+
+    background: #101827;
+    border: 1px solid #253249;
+
+    color: #9ba9be;
+    font-size: 12px;
+}
+
+main {
+    width: min(1100px, 94%);
+    margin: 35px auto 70px;
+}
+
+.hero {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 35px;
+}
+
+.hero h1 {
+    margin: 0;
+
+    font-size:
+        clamp(36px, 7vw, 70px);
+
+    line-height: .98;
+    letter-spacing: -3px;
+}
+
+.hero p {
+    color: #8996aa;
+    font-size: 17px;
+    line-height: 1.6;
+    margin-top: 18px;
+}
+
+.panel {
+    background: rgba(13, 18, 28, .88);
+    border: 1px solid #202b3b;
+
+    border-radius: 20px;
+    padding: 22px;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.35);
+}
+
+.panel h2 {
+    margin-top: 0;
+}
+
+.videoBox {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    border-radius: 15px;
+    overflow: hidden;
+
+    background: #020305;
+    border: 1px solid #202938;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.placeholder {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #69778c;
+    text-align: center;
+    padding: 25px;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(190px, 1fr));
+
+    gap: 10px;
+    margin-top: 15px;
+}
+
+button {
+    border: 0;
+    border-radius: 10px;
+
+    padding: 14px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    background: #3478f6;
+    color: white;
+
+    transition: .15s;
+}
+
+button:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+}
+
+button.secondary {
+    background: #172131;
+    border: 1px solid #29364a;
+}
+
+button.danger {
+    background: #b93636;
+}
+
+button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.status {
+    margin-top: 14px;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    background: #0b111b;
+    border: 1px solid #202b3b;
+
+    color: #98a6ba;
+}
+
+.status.ok {
+    color: #67e29b;
+}
+
+.status.error {
+    color: #ff7777;
+}
+
+.room {
+    display: none;
+}
+
+.room.visible {
+    display: block;
+}
+
+.roomLink {
+    margin-top: 13px;
+
+    display: flex;
+    gap: 8px;
+}
+
+.roomLink input {
+    flex: 1;
+
+    min-width: 0;
+
+    background: #080c13;
+    color: white;
+
+    border: 1px solid #283549;
+    border-radius: 10px;
+
+    padding: 13px;
+}
+
+.info {
+    margin-top: 25px;
+
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 12px;
+}
+
+.infoCard {
+    padding: 17px;
+
+    border-radius: 13px;
+
+    background: #0b111a;
+    border: 1px solid #1d2939;
+}
+
+.infoCard b {
+    display: block;
+    margin-bottom: 7px;
+}
+
+.infoCard span {
+    color: #7f8da2;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.consent {
+    margin-top: 18px;
+
+    padding: 16px;
+
+    border-radius: 12px;
+
+    background: #101927;
+    border: 1px solid #273852;
+
+    color: #aab7c9;
+
+    line-height: 1.55;
+    font-size: 14px;
+}
+
+@media(max-width: 600px) {
+
+    .nav {
+        height: 60px;
+    }
+
+    main {
+        margin-top: 22px;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+
+    .roomLink {
+        flex-direction: column;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="nav">
+
+<div class="logo">
+    Camera<span>Share</span>
+</div>
+
+<div class="badge">
+    WebRTC • Consent Required
+</div>
+
+</div>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+<h1>
+    CameraShare
+</h1>
+
+<p>
+    Поделись камерой и микрофоном с другим человеком
+    через защищённое WebRTC-соединение.
+    Доступ начинается только после разрешения пользователя.
+</p>
+
+</section>
+
+
+<section class="panel" id="startPanel">
+
+<h2>
+    Создать комнату
+</h2>
+
+<p style="color:#8290a4">
+    Создай персональную ссылку и отправь её человеку,
+    который будет передавать камеру.
+</p>
+
+<button onclick="createRoom()">
+    Создать комнату
+</button>
+
+</section>
+
+
+<section class="panel room" id="roomPanel">
+
+<h2>
+    Комната готова
+</h2>
+
+<div class="roomLink">
+
+<input
+    id="roomUrl"
+    readonly
+>
+
+<button onclick="copyRoomLink()">
+    Скопировать
+</button>
+
+</div>
+
+<div class="status" id="roomStatus">
+    Ожидание подключения...
+</div>
+
+<div class="videoBox" style="margin-top:15px">
+
+<video
+    id="remoteVideo"
+    autoplay
+    playsinline
+></video>
+
+<div
+    class="placeholder"
+    id="remotePlaceholder"
+>
+    Здесь появится камера после того,
+    как участник разрешит доступ.
+</div>
+
+</div>
+
+<button
+    class="danger"
+    onclick="closeRoom()"
+    style="margin-top:12px"
+>
+    Закрыть комнату
+</button>
+
+</section>
+
+
+<section
+    class="panel room"
+    id="guestPanel"
+>
+
+<h2>
+    Передача камеры
+</h2>
+
+<div class="consent">
+
+<b>Важно</b><br><br>
+
+После нажатия кнопки браузер покажет стандартный
+запрос доступа к камере и микрофону.
+
+Камера и микрофон не включаются скрытно.
+Ты можешь остановить передачу в любой момент.
+
+</div>
+
+<div class="videoBox" style="margin-top:15px">
+
+<video
+    id="localVideo"
+    autoplay
+    muted
+    playsinline
+></video>
+
+<div
+    class="placeholder"
+    id="localPlaceholder"
+>
+    Камера выключена
+</div>
+
+</div>
+
+<div class="controls">
+
+<button onclick="requestMedia()">
+    📷 Разрешить камеру и микрофон
+</button>
+
+<button
+    class="danger"
+    onclick="stopMedia()"
+>
+    ⛔ Остановить передачу
+</button>
+
+</div>
+
+<div
+    class="status"
+    id="guestStatus"
+>
+    Доступ не предоставлен
+</div>
+
+</section>
+
+
+<section class="info">
+
+<div class="infoCard">
+
+<b>🔐 Явное разрешение</b>
+
+<span>
+Браузер сам спрашивает пользователя
+о доступе к камере и микрофону.
+</span>
+
+</div>
+
+<div class="infoCard">
+
+<b>📡 WebRTC</b>
+
+<span>
+Медиа передаётся через WebRTC,
+без загрузки видеозаписи на сервер.
+</span>
+
+</div>
+
+<div class="infoCard">
+
+<b>🛑 Полный контроль</b>
+
+<span>
+Передающий пользователь может
+остановить камеру и микрофон одной кнопкой.
+</span>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script>
+
+let socket;
+
+let roomId = null;
+
+let role = null;
+
+let localStream = null;
+
+let peer = null;
+
+
+/*
+ * CONNECT WEBSOCKET
+ */
+
+function connectSocket() {
+
+    const protocol =
+        location.protocol === "https:"
+            ? "wss:"
+            : "ws:";
+
+    socket = new WebSocket(
+        `${protocol}//${location.host}`
+    );
+
+    socket.onopen = () => {
+
+        /*
+         * If the URL contains a room,
+         * automatically join it.
+         */
+
+        const params =
+            new URLSearchParams(location.search);
+
+        const room =
+            params.get("room");
+
+        if (room) {
+
+            roomId = room;
+            role = "guest";
+
+            document
+                .getElementById("startPanel")
+                .style.display = "none";
+
+            document
+                .getElementById("guestPanel")
+                .classList.add("visible");
+
+            socket.send(JSON.stringify({
+                type: "join-room",
+                roomId
+            }));
+
+        }
+
+    };
+
+
+    socket.onmessage = async event => {
+
+        const message =
+            JSON.parse(event.data);
+
+        await handleMessage(message);
+
+    };
+
+
+    socket.onclose = () => {
+
+        setGuestStatus(
+            "Соединение с сервером потеряно.",
+            true
+        );
+
+    };
+
+}
+
+
+/*
+ * CREATE ROOM
+ */
+
+function createRoom() {
+
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+
+        alert("Подключение к серверу ещё не готово.");
+
+        return;
+    }
+
+    role = "host";
+
+    socket.send(JSON.stringify({
+        type: "create-room"
+    }));
+
+}
+
+
+/*
+ * ROOM CREATED
+ */
+
+function showRoom(id) {
+
+    roomId = id;
+
+    const url =
+        `${location.origin}${location.pathname}?room=${id}`;
+
+    document.getElementById("roomUrl").value = url;
+
+    document
+        .getElementById("roomPanel")
+        .classList.add("visible");
+
+}
+
+
+/*
+ * COPY
+ */
+
+async function copyRoomLink() {
+
+    const input =
+        document.getElementById("roomUrl");
+
+    try {
+
+        await navigator.clipboard.writeText(
+            input.value
+        );
+
+        document.getElementById("roomStatus").textContent =
+            "Ссылка скопирована.";
+
+    } catch {
+
+        input.select();
+
+        document.execCommand("copy");
+
+        document.getElementById("roomStatus").textContent =
+            "Ссылка скопирована.";
+
+    }
+
+}
+
+
+/*
+ * GET CAMERA
+ */
+
+async function requestMedia() {
+
+    if (role !== "guest") return;
+
+    if (!navigator.mediaDevices) {
+
+        setGuestStatus(
+            "Браузер не поддерживает доступ к камере.",
+            true
+        );
+
+        return;
+    }
+
+    try {
+
+        localStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+                    facingMode: "user"
+                },
+
+                audio: true
+
+            });
+
+
+        document.getElementById("localVideo")
+            .srcObject = localStream;
+
+        document.getElementById("localPlaceholder")
+            .style.display = "none";
+
+
+        setGuestStatus(
+            "Камера и микрофон разрешены. Подключение...",
+            false
+        );
+
+
+        /*
+         * Tell host that media is ready.
+         */
+
+        socket.send(JSON.stringify({
+            type: "media-ready"
+        }));
+
+
+        createPeerConnection(true);
+
+    } catch (error) {
+
+        setGuestStatus(
+            "Доступ не предоставлен: " +
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+/*
+ * STOP CAMERA
+ */
+
+function stopMedia() {
+
+    if (localStream) {
+
+        localStream
+            .getTracks()
+            .forEach(track => track.stop());
+
+        localStream = null;
+    }
+
+
+    document.getElementById("localVideo")
+        .srcObject = null;
+
+    document.getElementById("localPlaceholder")
+        .style.display = "flex";
+
+
+    if (peer) {
+
+        peer.close();
+        peer = null;
+    }
+
+
+    if (socket?.readyState === WebSocket.OPEN) {
+
+        socket.send(JSON.stringify({
+            type: "stream-stopped"
+        }));
+
+    }
+
+
+    setGuestStatus(
+        "Передача остановлена."
+    );
+
+}
+
+
+/*
+ * PEER CONNECTION
+ */
+
+function createPeerConnection(isGuest) {
+
+    if (peer) {
+        peer.close();
+    }
+
+    peer = new RTCPeerConnection({
+
+        iceServers: [
+
+            {
+                urls:
+                    "stun:stun.l.google.com:19302"
+            }
+
+        ]
+
+    });
+
+
+    /*
+     * ICE
+     */
+
+    peer.onicecandidate = event => {
+
+        if (!event.candidate) return;
+
+        socket.send(JSON.stringify({
+
+            type: "ice",
+
+            candidate: event.candidate
+
+        }));
+
+    };
+
+
+    /*
+     * RECEIVING VIDEO
+     */
+
+    peer.ontrack = event => {
+
+        const video =
+            document.getElementById("remoteVideo");
+
+        video.srcObject =
+            event.streams[0];
+
+        document.getElementById(
+            "remotePlaceholder"
+        ).style.display = "none";
+
+        document.getElementById(
+            "roomStatus"
+        ).textContent =
+            "● Камера подключена";
+
+    };
+
+
+    peer.onconnectionstatechange = () => {
+
+        if (!peer) return;
+
+        document.getElementById(
+            isGuest
+                ? "guestStatus"
+                : "roomStatus"
+        ).textContent =
+            "Соединение: " +
+            peer.connectionState;
+
+    };
+
+
+    /*
+     * Guest sends camera/audio.
+     */
+
+    if (isGuest && localStream) {
+
+        localStream
+            .getTracks()
+            .forEach(track => {
+
+                peer.addTrack(
+                    track,
+                    localStream
+                );
+
+            });
+
+    }
+
+}
+
+
+/*
+ * MESSAGE HANDLER
+ */
+
+async function handleMessage(message) {
+
+    /*
+     * ROOM CREATED
+     */
+
+    if (message.type === "room-created") {
+
+        showRoom(message.roomId);
+
+        return;
+    }
+
+
+    /*
+     * JOINED
+     */
+
+    if (message.type === "joined") {
+
+        setGuestStatus(
+            "Ты вошёл в комнату. Разреши камеру и микрофон."
+        );
+
+        return;
+    }
+
+
+    /*
+     * GUEST JOINED
+     */
+
+    if (message.type === "guest-joined") {
+
+        document.getElementById(
+            "roomStatus"
+        ).textContent =
+            "Устройство подключилось. Ожидание разрешения камеры...";
+
+        return;
+    }
+
+
+    /*
+     * MEDIA READY
+     *
+     * Host creates OFFER.
+     */
+
+    if (message.type === "media-ready") {
+
+        if (role !== "host") return;
+
+        createPeerConnection(false);
+
+        const offer =
+            await peer.createOffer();
+
+        await peer.setLocalDescription(offer);
+
+        socket.send(JSON.stringify({
+
+            type: "offer",
+
+            offer
+
+        }));
+
+        return;
+    }
+
+
+    /*
+     * OFFER
+     */
+
+    if (message.type === "offer") {
+
+        if (role !== "guest") return;
+
+        if (!peer) {
+            createPeerConnection(true);
+        }
+
+        await peer.setRemoteDescription(
+            message.offer
+        );
+
+        const answer =
+            await peer.createAnswer();
+
+        await peer.setLocalDescription(answer);
+
+        socket.send(JSON.stringify({
+
+            type: "answer",
+
+            answer
+
+        }));
+
+        return;
+    }
+
+
+    /*
+     * ANSWER
+     */
+
+    if (message.type === "answer") {
+
+        if (!peer) return;
+
+        await peer.setRemoteDescription(
+            message.answer
+        );
+
+        return;
+    }
+
+
+    /*
+     * ICE
+     */
+
+    if (message.type === "ice") {
+
+        if (!peer) return;
+
+        try {
+
+            await peer.addIceCandidate(
+                message.candidate
+            );
+
+        } catch {}
+
+        return;
+    }
+
+
+    /*
+     * STREAM STOPPED
+     */
+
+    if (message.type === "stream-stopped") {
+
+        const video =
+            document.getElementById("remoteVideo");
+
+        video.srcObject = null;
+
+        document.getElementById(
+            "remotePlaceholder"
+        ).style.display = "flex";
+
+        document.getElementById(
+            "roomStatus"
+        ).textContent =
+            "Пользователь остановил передачу.";
+
+        return;
+    }
+
+
+    /*
+     * PEER LEFT
+     */
+
+    if (message.type === "peer-left") {
+
+        const video =
+            document.getElementById("remoteVideo");
+
+        video.srcObject = null;
+
+        document.getElementById(
+            "remotePlaceholder"
+        ).style.display = "flex";
+
+        document.getElementById(
+            "roomStatus"
+        ).textContent =
+            "Устройство отключилось.";
+
+        return;
+    }
+
+
+    /*
+     * ROOM CLOSED
+     */
+
+    if (message.type === "room-closed") {
+
+        setGuestStatus(
+            "Владелец комнаты закрыл подключение.",
+            true
+        );
+
+        stopMediaLocalOnly();
+
+        return;
+    }
+
+
+    /*
+     * SERVER ERROR
+     */
+
+    if (message.type === "error") {
+
+        setGuestStatus(
+            message.message,
+            true
+        );
+
+        return;
+    }
+
+}
+
+
+/*
+ * LOCAL STOP
+ */
+
+function stopMediaLocalOnly() {
+
+    if (localStream) {
+
+        localStream
+            .getTracks()
+            .forEach(track => track.stop());
+
+        localStream = null;
+    }
+
+    if (peer) {
+
+        peer.close();
+        peer = null;
+
+    }
+
+}
+
+
+/*
+ * CLOSE HOST ROOM
+ */
+
+function closeRoom() {
+
+    stopMediaLocalOnly();
+
+    if (socket) {
+        socket.close();
+    }
+
+    location.href = location.pathname;
+
+}
+
+
+/*
+ * STATUS
+ */
+
+function setGuestStatus(text, error = false) {
+
+    const el =
+        document.getElementById("guestStatus");
+
+    el.textContent = text;
+
+    el.className =
+        "status" +
+        (error ? " error" : "");
+
+}
+
+
+/*
+ * START
+ */
+
+connectSocket();
+
+</script>
+
+</body>
+</html>
